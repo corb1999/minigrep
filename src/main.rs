@@ -5,16 +5,16 @@ fn main() {
 
     let args: Vec<String> = std::env::args().collect();
 
-    let config = parse_config(&args); 
+    let config = Config::new(&args); 
 
-    println!("{:?}", args);
-    println!("Searching for... '{}'", config.query); 
-    println!("Within file... '{}'", config.filename);
+    println!("{:?} \n", args);
+    println!("Searching for... '{}' \n", config.query); 
+    println!("Within file... '{}' \n", config.filename);
 
     let contents = std::fs::read_to_string(config.filename)
         .expect("Something went wrong trying to read the file"); 
 
-    println!("Which has text of... \n{}", contents);
+    println!("Which has text of... \n '{}'", contents);
 
 }
 
@@ -23,9 +23,16 @@ struct Config {
     filename: String, 
 }
 
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let filename = args[2].clone(); 
+impl Config {
+    fn new(args: &[String]) -> Config {
+        if args.len() < 3 {
+            panic!("***Not enough arguments"); 
+        }
 
-    Config { query, filename }
+        let query = args[1].clone(); 
+        let filename = args[2].clone(); 
+
+        Config { query, filename }
+    }
 }
+
