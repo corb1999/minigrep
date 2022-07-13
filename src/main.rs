@@ -1,4 +1,9 @@
-// use std::env::args; // not needed to import
+/* 
+use std::env::args; // dont need to import some std lib calls since called explicetly just once or so
+use std::process::exit; 
+use std::fs::read_to_string;
+// */
+use std::error::Error;
 
 fn main() {
     println!("\n Hello, I am minigrep! \n");
@@ -14,12 +19,22 @@ fn main() {
     println!("{:?} \n", args);
     println!("Searching for... '{}' \n", config.query); 
     println!("Within file... '{}' \n", config.filename);
+    
+    // run(config); 
 
-    let contents = std::fs::read_to_string(config.filename)
-        .expect("Something went wrong trying to read the file"); 
+    if let Err(e) = run(config) {
+        println!("Application error: {}", e); 
+        std::process::exit(1); 
+    }
 
-    println!("Which has text of... \n '{}'", contents);
+}
 
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = std::fs::read_to_string(config.filename)?;
+        
+    println!("Which has text of...\n'{}'", contents);
+
+    Ok(())
 }
 
 struct Config {
