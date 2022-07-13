@@ -6,7 +6,7 @@ use std::fs::read_to_string;
 use minigrep::Config;
 
 fn main() {
-    println!("\n Hello, I am minigrep! \n");
+    println!("\nHello, I am minigrep! \n");
 
     let args: Vec<String> = std::env::args().collect();
 
@@ -16,11 +16,9 @@ fn main() {
             std::process::exit(1); 
         }); 
 
-    println!("{:?} \n", args);
-    println!("Searching for... '{}' \n", config.query); 
-    println!("Within file... '{}' \n", config.filename);
-    
-    // run(config); 
+//    println!("{:?} \n", args);
+    println!("  Searching for... '{}' \n", config.query); 
+    println!("  Within file... '{}' \n", config.filename);
 
     if let Err(e) = minigrep::run(config) {
         println!("Application error: {}", e); 
