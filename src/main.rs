@@ -8,8 +8,12 @@ fn main() {
     let query = &args[1];
     let filename = &args[2]; 
 
+    let contents = std::fs::read_to_string(filename)
+        .expect("Something went wrong trying to read the file"); 
+
     println!("{:?}", args);
-    println!("Searching for {}", query); 
-    println!("Within file {}", filename); 
+    println!("Searching for... '{}'", query); 
+    println!("Within file... '{}'", filename); 
+    println!("Which has text of... \n{}", contents);
 
 }
