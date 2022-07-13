@@ -3,7 +3,7 @@ use std::env::args; // dont need to import some std lib calls since called expli
 use std::process::exit; 
 use std::fs::read_to_string;
 // */
-use std::error::Error;
+use minigrep::Config;
 
 fn main() {
     println!("\n Hello, I am minigrep! \n");
@@ -22,36 +22,12 @@ fn main() {
     
     // run(config); 
 
-    if let Err(e) = run(config) {
+    if let Err(e) = minigrep::run(config) {
         println!("Application error: {}", e); 
         std::process::exit(1); 
     }
 
 }
 
-fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = std::fs::read_to_string(config.filename)?;
-        
-    println!("Which has text of...\n'{}'", contents);
 
-    Ok(())
-}
-
-struct Config {
-    query: String, 
-    filename: String, 
-}
-
-impl Config {
-    fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("***Not enough arguments"); 
-        }
-
-        let query = args[1].clone(); 
-        let filename = args[2].clone(); 
-
-        Ok(Config { query, filename })
-    }
-}
 
