@@ -50,6 +50,7 @@ pub struct Config {
 }
 
 impl Config {
+    // this is the original function built in ch 12, but I never renamed it build
     pub fn new(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
             return Err("***Not enough arguments"); 
@@ -61,6 +62,25 @@ impl Config {
         let ignore_case = std::env::var("IGNORE_CASE").is_ok(); 
 
         Ok(Config { query, filename, ignore_case, })
+    }
+
+    // suggested new fn using iterators per ch 13.3
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
+        args.next(); 
+
+        let query = match args.next() {
+            Some(arg) => arg, 
+            None => return Err("No query string"), 
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg, 
+            None => return Err("No file path"),  
+        };
+
+        let ignore_case = std::env::var("IGNORE_CASE").is_ok(); 
+
+        Ok(Config { query, filename, ignore_case} )
     }
 }
 
