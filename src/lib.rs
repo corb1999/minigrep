@@ -18,7 +18,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+// original search fn written in ch 12
+/*pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new(); 
     
     for line in contents.lines() {
@@ -28,6 +29,11 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     }
 
     results
+}*/
+
+// rewriting search fn per ch 13.3 to use iterator adaptors instead of a loop
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents.lines().filter(|line| line.contains(query)).collect()
 }
 
 pub fn search_case_insentive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
